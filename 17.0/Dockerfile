@@ -9,6 +9,8 @@ ENV PLESK_DISABLE_HOSTNAME_CHECKING 1
 # allow services to start
 RUN sed -i -e 's/exit.*/exit 0/g' /usr/sbin/policy-rc.d
 
+ADD key.xml /key.xml
+
 RUN apt-get update \
     && apt-get install -y wget \
     && wget -q -O /root/ai http://autoinstall.plesk.com/plesk-installer \
@@ -31,7 +33,7 @@ RUN apt-get update \
         -email changeme@example.com \
         -passwd changeme \
         -hostname-not-required \
-    && plesk bin license -i A00000-K6QK03-KSG046-H6BK67-1GE201 \
+    && plesk bin license -i key.xml \
     && plesk bin settings --set admin_info_not_required=true \
     && plesk bin poweruser --off \
     && plesk bin cloning -u -prepare-public-image true -reset-license false -reset-init-conf false -skip-update true \
