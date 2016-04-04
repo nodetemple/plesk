@@ -1,6 +1,6 @@
 # Plesk 17.0 container
 
-FROM ubuntu:14.04
+FROM ubuntu:14.04.4
 
 MAINTAINER hostmaster@nodetemple.com
 
