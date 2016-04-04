@@ -6,7 +6,7 @@ Dockerfile for building Plesk images.
 
 Here is an example on how to build the image manually:
 
-    docker build -t nodetemple/plesk:17.0 .
+    docker build -t nodetemple/plesk:17.0 https://github.com/nodetemple/plesk.git
 
 Create a container to test the image:
 
