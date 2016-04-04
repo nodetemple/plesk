@@ -4,7 +4,6 @@ FROM ubuntu:14.04
 
 MAINTAINER hostmaster@nodetemple.com
 
-ENV DEBIAN_FRONTEND noninteractive
 ENV PLESK_DISABLE_HOSTNAME_CHECKING 1
 
 # allow services to start
