@@ -1,7 +1,4 @@
-# Plesk 17.0 container
-
 FROM ubuntu:14.04.4
-
 MAINTAINER hostmaster@nodetemple.com
 
 ENV PLESK_DISABLE_HOSTNAME_CHECKING 1
@@ -30,8 +27,8 @@ RUN apt-get update \
         --install-component l10n \
         --install-component heavy-metal-skin \
     && plesk bin init_conf --init \
-        -email changeme@example.com \
-        -passwd changeme \
+        -email git@nodetemple.com \
+        -passwd nodetemple \
         -hostname-not-required \
     && plesk bin license -i key.xml \
     && plesk bin settings --set admin_info_not_required=true \
