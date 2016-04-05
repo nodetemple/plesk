@@ -31,8 +31,9 @@ RUN apt-get update \
         --install-component heavy-metal-skin \
     && plesk bin init_conf --init \
         -hostname-not-required \
+        -encrypted-password \
         -email hostmaster@nodetemple.com \
-        -encrypted-password -passwd nodetemple \
+        -passwd nodetemple \
         -admin_info_not_required true \
         -license_agreed true \
     && plesk bin license -i key.xml \
@@ -42,8 +43,6 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /root/ai /root/parallels
-
-#    -default-ip ${EXTERNAL_IP} -netmask 255.255.255.255 -iface eth0 -ip-type shared \
 
 CMD /run.sh
 
