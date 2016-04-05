@@ -11,7 +11,7 @@ docker build -t nodetemple/plesk:17.0 https://github.com/nodetemple/plesk.git#ma
 
 Run a container:
 ```bash
-docker run -d -it --name=plesk --privileged -p 8880:8880 -p 8447:8447 nodetemple/plesk:17.0
+docker run -d -it --name=plesk --privileged -e EXTERNAL_IP=${EXTERNAL_IP} -p 8880:8880 -p 8447:8447 nodetemple/plesk:17.0
 ```
 
 ## Access control panel

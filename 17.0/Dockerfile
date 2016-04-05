@@ -30,12 +30,10 @@ RUN apt-get update \
         --install-component l10n \
         --install-component heavy-metal-skin \
     && plesk bin init_conf --init \
-        -hostname-not-required \
-        -encrypted-password \
         -email hostmaster@nodetemple.com \
         -passwd nodetemple \
-        -admin_info_not_required true \
-        -license_agreed true \
+        -hostname-not-required -encrypted-password -admin_info_not_required true \
+        -license_agreed true -send_announce false -send_tech_announce false \
     && plesk bin license -i key.xml \
     && plesk bin poweruser --off \
     && plesk bin cloning -u -prepare-public-image true -reset-license false -reset-init-conf false -skip-update true \
@@ -43,6 +41,8 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /root/ai /root/parallels
+
+#-default-ip ${EXTERNAL_IP} -netmask 255.255.0.0 -iface eth0 -ip-type shared
 
 CMD /run.sh
 
