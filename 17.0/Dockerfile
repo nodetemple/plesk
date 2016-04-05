@@ -1,12 +1,12 @@
 FROM ubuntu:14.04.4
 MAINTAINER hostmaster@nodetemple.com
 
-ENV PLESK_DISABLE_HOSTNAME_CHECKING 1
+ENV PLESK_DISABLE_HOSTNAME_CHECKING yes
 
 # allow services to start
 RUN sed -i -e 's/exit.*/exit 0/g' /usr/sbin/policy-rc.d
 
-ADD key.xml /key.xml
+ADD key.xml run.sh ./
 
 RUN apt-get update \
     && apt-get install -y wget \
@@ -38,7 +38,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /root/ai /root/parallels
 
-ADD run.sh /run.sh
 CMD /run.sh
 
 # Port to expose
