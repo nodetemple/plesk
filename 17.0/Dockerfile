@@ -1,7 +1,7 @@
 FROM ubuntu:14.04.4
 MAINTAINER hostmaster@nodetemple.com
 
-ENV PLESK_DISABLE_HOSTNAME_CHECKING yes
+ENV PLESK_DISABLE_HOSTNAME_CHECKING 1
 
 # allow services to start
 RUN sed -i -e 's/exit.*/exit 0/g' /usr/sbin/policy-rc.d
@@ -9,6 +9,9 @@ RUN sed -i -e 's/exit.*/exit 0/g' /usr/sbin/policy-rc.d
 ADD key.xml run.sh ./
 
 RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get dist-upgrade -y \
+    && apt-get purge -y apparmor \
     && apt-get install -y wget \
     && wget -q -O /root/ai http://autoinstall.plesk.com/plesk-installer \
     && bash /root/ai \
@@ -27,16 +30,20 @@ RUN apt-get update \
         --install-component l10n \
         --install-component heavy-metal-skin \
     && plesk bin init_conf --init \
-        -email git@nodetemple.com \
-        -passwd nodetemple \
         -hostname-not-required \
+        -email hostmaster@nodetemple.com \
+        -encrypted-password -passwd nodetemple \
+        -admin_info_not_required true \
+        -license_agreed true \
     && plesk bin license -i key.xml \
-    && plesk bin settings --set admin_info_not_required=true \
     && plesk bin poweruser --off \
     && plesk bin cloning -u -prepare-public-image true -reset-license false -reset-init-conf false -skip-update true \
     && plesk bin ipmanage --auto-remap-ip-addresses true \
+    && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /root/ai /root/parallels
+
+#    -default-ip ${EXTERNAL_IP} -netmask 255.255.255.255 -iface eth0 -ip-type shared \
 
 CMD /run.sh
 
