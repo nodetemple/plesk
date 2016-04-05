@@ -10,11 +10,11 @@ Here is an example on how to build the image manually:
 
 Create a container to test the image:
 
-    docker run --privileged -d -it -p 8880:8880 nodetemple/plesk:17.0
+    docker run -d -it --name=plesk --privileged -p 8880:8880 -p 8447:8447 nodetemple/plesk:17.0
 
 Open IP:8880 URL using browser.
 
-Default login and password: admin / changeme 
+Default login and password: admin / changeme
 
 # Known Issues
 
@@ -50,4 +50,4 @@ Symptoms:
 
     502 Bad Gateway
 
-Ignore the error and refresh the page in browser (F5). 
+Ignore the error and refresh the page in browser (F5).
