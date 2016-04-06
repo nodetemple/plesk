@@ -3,12 +3,12 @@ MAINTAINER hostmaster@nodetemple.com
 
 ENV PLESK_DISABLE_HOSTNAME_CHECKING 1
 
-# allow services to start
-RUN sed -i -e 's/exit.*/exit 0/g' /usr/sbin/policy-rc.d
-
 ADD key.xml run.sh ./
 
-RUN apt-get update \
+RUN sed -i -e 's/exit.*/exit 0/g' /usr/sbin/policy-rc.d \
+    && echo 'Europe/Vilnius' > /etc/timezone \
+    && dpkg-reconfigure -f noninteractive tzdata \
+    && apt-get update \
     && apt-get upgrade -y \
     && apt-get dist-upgrade -y \
     && apt-get purge -y apparmor \
@@ -19,16 +19,30 @@ RUN apt-get update \
         --select-product-id=plesk \
         --select-release-id=PLESK_17_0_10 \
         --install-component panel \
-        --install-component phpgroup \
+        --install-component bind \
         --install-component web-hosting \
-        --install-component mod_fcgid \
-        --install-component proftpd \
         --install-component webservers \
         --install-component nginx \
-        --install-component mysqlgroup \
+        --install-component phpgroup \
+        --install-component phpfpm \
         --install-component php5.6 \
+        --install-component php7.0 \
+        --install-component mod_fcgid \
+        --install-component mod-bw \
+        --install-component mysqlgroup \
+        --install-component proftpd \
+        --install-component postfix \
+        --install-component dovecot \
+        --install-component spamassassin \
+        --install-component roundcube \
+        --install-component awstats \
+        --install-component fail2ban \
+        --install-component modsecurity \
+        --install-component psa-firewall \
+        --install-component health-monitor \
+        --install-component config-troubleshooter \
+        --install-component git \
         --install-component l10n \
-        --install-component heavy-metal-skin \
     && plesk bin init_conf --init \
         -email hostmaster@nodetemple.com \
         -passwd nodetemple \
@@ -40,7 +54,7 @@ RUN apt-get update \
     && plesk bin ipmanage --auto-remap-ip-addresses true \
     && apt-get autoremove -y \
     && apt-get clean \
-    && rm -rf /root/ai /root/parallels
+    && rm -rf /root/ai /root/parallels /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #-default-ip ${EXTERNAL_IP} -netmask 255.255.0.0 -iface eth0 -ip-type shared
 
