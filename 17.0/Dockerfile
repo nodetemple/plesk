@@ -1,7 +1,8 @@
 FROM ubuntu:14.04.4
 MAINTAINER hostmaster@nodetemple.com
 
-ENV PLESK_DISABLE_HOSTNAME_CHECKING 1
+ENV DEBIAN_FRONTEND noninteractive
+ENV PLESK_DISABLE_HOSTNAME_CHECKING yes
 
 ADD key.xml run.sh ./
 
